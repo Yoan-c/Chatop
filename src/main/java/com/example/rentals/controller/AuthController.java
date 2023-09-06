@@ -41,12 +41,10 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<HashMap> register(@RequestBody Register request){
 
-        if (!authService.register(request)){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        LogIn login = new LogIn(request.getEmail(), request.getPassword());
-
         HashMap<String, String> hashToken = new HashMap<>();
+
+        authService.register(request);
+        LogIn login = new LogIn(request.getEmail(), request.getPassword());
         hashToken.put("token",authService.login(login));
         return new ResponseEntity<>(hashToken, HttpStatus.OK);
     }
@@ -59,13 +57,11 @@ public class AuthController {
             @ApiResponse(responseCode = "400")
     })
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestBody LogIn login){
+    public ResponseEntity<HashMap> login(@RequestBody LogIn login){
+
         HashMap<String, String> hashToken = new HashMap<>();
+
         hashToken.put("token", authService.login(login));
-        if (hashToken.get("token") == null) {
-            hashToken.put("message" , "error");
-            return new ResponseEntity<>(hashToken, HttpStatus.UNAUTHORIZED);
-        }
         return new ResponseEntity<>(hashToken, HttpStatus.OK);
     }
 
