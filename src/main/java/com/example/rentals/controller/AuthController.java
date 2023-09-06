@@ -64,5 +64,4 @@ public class AuthController {
         hashToken.put("token", authService.login(login));
         return new ResponseEntity<>(hashToken, HttpStatus.OK);
     }
-
 }
