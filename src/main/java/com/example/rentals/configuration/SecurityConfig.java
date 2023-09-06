@@ -34,8 +34,9 @@ public class SecurityConfig {
         http
                 .csrf( csrf -> csrf.disable());
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/auth/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
+                        .requestMatchers(AUTH_WHITELIST).permitAll()
                 .anyRequest().authenticated())
                 .sessionManagement( session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -44,4 +45,13 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+    private static final String[] AUTH_WHITELIST = {
+            "/v3/api-docs/**",
+            "/v3/api-doc.yaml",
+            "/swagger-ui/**",
+            "/swagger-ui.html",
+            "/chatop-documentation",
+            "/chatop-api-docs"
+    };
 }

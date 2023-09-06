@@ -4,6 +4,7 @@ import com.example.rentals.entity.LogIn;
 import com.example.rentals.entity.Register;
 import com.example.rentals.entity.Users;
 import com.example.rentals.repository.IUserRepository;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,25 +29,28 @@ public class AuthService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    public void register(Register request){
+    @Transactional
+    public boolean register(Register request){
         Optional<Users> checkUser = userRepository.findByEmail(request.getEmail());
+        if (request.getEmail() == null || request.getPassword() == null || request.getName() == null){
+            log.error("Missing some user information ! code 400");
+            log.warn(request.toString());
+            // TODO : SEND AN ERROR MISSING SOME INFORMATION
+            return false;
+        }
         if (checkUser != null && checkUser.isPresent()) {
             log.error("User already exist !");
             log.warn(checkUser.get().toString());
             // TODO : SEND AN ERROR USER ALREADY EXISTS
-            return;
+            return false;
         }
-        if (request.getEmail() == null || request.getPassword() == null || request.getName() == null){
-            log.error("Missing some user information !");
-            log.warn(request.toString());
-            // TODO : SEND AN ERROR MISSING SOME INFORMATION
-            return;
-        }
+
         Users user = new Users();
         user.setEmail(request.getEmail());
         user.setName(request.getName());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
+        return true;
     }
 
     public String login(LogIn login){

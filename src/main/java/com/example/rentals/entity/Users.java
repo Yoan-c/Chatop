@@ -35,6 +35,16 @@ public class Users implements UserDetails {
     private List<Rentals> rentalsList;
 
 
+    @PrePersist
+    public void onCreate(){
+        this.created_at = new Date();
+        this.updated_at = new Date();
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        this.updated_at = new Date();
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
