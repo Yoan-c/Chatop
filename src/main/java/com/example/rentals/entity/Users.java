@@ -1,5 +1,6 @@
 package com.example.rentals.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,11 +28,12 @@ public class Users implements UserDetails {
     @Column(unique=true)
     private String email;
     private String name;
+    @JsonIgnore
     private String password;
     private Date created_at;
     private Date updated_at;
 
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
     private List<Rentals> rentalsList;
 
 

@@ -2,6 +2,7 @@ package com.example.rentals.service;
 
 import com.example.rentals.entity.LogIn;
 import com.example.rentals.entity.Register;
+import com.example.rentals.entity.UserInfo;
 import com.example.rentals.entity.Users;
 import com.example.rentals.error.ApiCustomError;
 import com.example.rentals.repository.IUserRepository;
@@ -12,9 +13,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.Optional;
 
 @Service
@@ -53,7 +57,7 @@ public class AuthService {
 
     public String login(LogIn login){
         if (login.getEmail() == null || login.getPassword() == null ){
-            log.error("Check username and password!");
+            log.error("[AuthService] login Check username and password!");
             throw new BadCredentialsException("error");
         }
         try {
@@ -64,11 +68,23 @@ public class AuthService {
                 )
         );
         } catch (BadCredentialsException ex){
+            log.error("[AuthService] login "+ex.toString());
             throw new BadCredentialsException("error");
         }
         Users user = userRepository.findByEmail(login.getEmail())
                 .orElseThrow(() -> new BadCredentialsException("error"));
         String token = jwtService.generateToken(user);
         return token;
+    }
+
+    public UserInfo getMyInfo(){
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Users user = userRepository.findByEmail(email).get();
+        UserInfo userInfo = new UserInfo(user.getId(),
+                user.getName(),
+                user.getEmail(),
+                user.getCreated_at(),
+                user.getUpdated_at());
+        return userInfo;
     }
 }

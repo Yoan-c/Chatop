@@ -2,10 +2,8 @@ package com.example.rentals.controller;
 
 import com.example.rentals.entity.LogIn;
 import com.example.rentals.entity.Register;
-import com.example.rentals.entity.Users;
-import com.example.rentals.repository.IUserRepository;
+import com.example.rentals.entity.UserInfo;
 import com.example.rentals.service.AuthService;
-import com.example.rentals.service.JwtService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,14 +12,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -29,6 +22,7 @@ public class AuthController {
 
     @Autowired
     private AuthService authService;
+
 
 
     @Operation(
@@ -63,5 +57,17 @@ public class AuthController {
 
         hashToken.put("token", authService.login(login));
         return new ResponseEntity<>(hashToken, HttpStatus.OK);
+    }
+
+    @Operation(
+            summary = "Get user info",
+            description = "get information about user account")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = {@Content(mediaType = "application/json")}),
+            @ApiResponse(responseCode = "401")
+    })
+    @GetMapping("/me")
+    public ResponseEntity<UserInfo> getMe(){
+        return new ResponseEntity<>(authService.getMyInfo(), HttpStatus.OK);
     }
 }

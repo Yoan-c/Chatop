@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.BadCredentialsException;
 
+import java.util.HashMap;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,14 +24,18 @@ public class AuthServiceTest {
     @Test
     void getTokenByLoginMissing(){
         LogIn login = new LogIn();
-        String token = authService.login(login);
-        assertNull(token);
+       // String token = authService.login(login);
+        BadCredentialsException badCredentialsException = assertThrows(
+                BadCredentialsException.class,
+                ()-> authService.login(login),
+                "error");
+        assertTrue(badCredentialsException.getMessage().contains("error"));
     }
     @Test
     void getTokenByLoginMissingField(){
         LogIn login = new LogIn("", "test");
         Exception thrown = assertThrows(BadCredentialsException.class, () -> authService.login(login));
-      assertTrue(thrown.getMessage().contains("Bad credentials"));
+      assertTrue(thrown.getMessage().contains("error"));
     }
 
     @Test
@@ -53,8 +58,10 @@ public class AuthServiceTest {
         Register register = new Register();
         register.setEmail("testUser@gmail.com");
         register.setPassword("password");
-        authService.register(register);
-        Optional<Users> users = userRepository.findByEmail(register.getEmail());
-        assertTrue(users.isEmpty());
+
+        Exception thrown = assertThrows(Exception.class, () ->
+                authService.register(register));
+        assertNull(thrown.getMessage());
     }
+
 }
