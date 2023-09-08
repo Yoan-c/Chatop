@@ -39,7 +39,8 @@ public class RentalService {
         Rentals rentals = createRentalWithData(hashRental);
             String pathPicture = documentUtils.uploadUserRentalPicture(picture);
             if (pathPicture != null)
-                rentals.setPicture(pathPicture.substring(pathPicture.lastIndexOf("/") + 1));
+               // rentals.setPicture(pathPicture.substring(pathPicture.indexOf("/images")));
+                rentals.setPicture(pathPicture);
             rentalRepository.save(rentals);
     }
 

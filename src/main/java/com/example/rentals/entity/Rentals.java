@@ -1,5 +1,6 @@
 package com.example.rentals.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -17,7 +18,7 @@ public class Rentals {
     private String picture;
     @Column(length = 2000)
     private String description;
-
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name ="owner_id",  nullable = false)
     private Users owner;
@@ -33,5 +34,19 @@ public class Rentals {
     @PreUpdate
     public void onUpdate() {
         this.updated_at = new Date();
+    }
+
+    @Override
+    public String toString() {
+        return "Rentals{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surface=" + surface +
+                ", price=" + price +
+                ", picture='" + picture + '\'' +
+                ", description='" + description + '\'' +
+                ", created_at=" + created_at +
+                ", updated_at=" + updated_at +
+                '}';
     }
 }

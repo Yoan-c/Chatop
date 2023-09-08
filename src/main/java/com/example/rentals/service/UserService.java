@@ -21,7 +21,7 @@ public class UserService {
             idUser = Integer.parseInt(id);
         }
         catch (Exception ex){
-            log.error("[UserService] getUserInfoById "+ex.toString());
+            log.error("[UserService] getUserInfoById "+ ex);
         }
 
         Users user = userRepository.findById(idUser).orElseThrow();

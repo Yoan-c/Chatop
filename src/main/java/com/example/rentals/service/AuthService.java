@@ -66,7 +66,7 @@ public class AuthService {
                 )
         );
         } catch (BadCredentialsException ex){
-            log.error("[AuthService] login "+ex.toString());
+            log.error("[AuthService] login "+ ex);
             throw new BadCredentialsException("error");
         }
         Users user = userRepository.findByEmail(login.getEmail())

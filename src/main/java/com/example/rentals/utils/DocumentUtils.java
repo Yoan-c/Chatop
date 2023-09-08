@@ -16,14 +16,22 @@ import java.io.InputStream;
 @Component
 public class DocumentUtils {
 
-    private final String DIR_PICTURE_PATH;
+    @Value("${chatop.app.DirPircturePath}")
+    private String DIR_PICTURE_PATH;
+
+    @Value("${app.url}")
+    private String APP_URL;
+
+    @Value("${server.port}")
+    private String SERVER_PORT;
+
+    @Value("${chatop.app.URL_RELATIVE_PICTURE}")
+    private String RELATIVE_PICTURE;
 
     @Autowired
     private UserService userService;
 
-    public DocumentUtils(@Value("${chatop.app.DirPircturePath}") String fileName){
-        this.DIR_PICTURE_PATH = fileName;
-    }
+
 
     public void createDirIfNotExist() throws Exception {
         File directory = new File(DIR_PICTURE_PATH);
@@ -61,6 +69,13 @@ public class DocumentUtils {
         }catch (Exception ex){
             log.error("[DocumentUtils] uploadUserRentalPicture "+ ex);
         }
-        return pathPicture;
+        return this.APP_URL+":"
+                +this.SERVER_PORT
+                +"/"
+                +getFormatPathToUrl(pathPicture);
+    }
+
+    private String getFormatPathToUrl(String pathPicture) {
+        return pathPicture.substring(pathPicture.indexOf("images/"));
     }
 }

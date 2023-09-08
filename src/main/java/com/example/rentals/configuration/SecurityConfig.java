@@ -31,7 +31,9 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/api/auth/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                         .requestMatchers(AUTH_WHITELIST).permitAll()
-                .anyRequest().authenticated())
+                .anyRequest().authenticated()
+                //        .anyRequest().permitAll()
+                        )
                 .sessionManagement( session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(ex -> ex
@@ -48,6 +50,10 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/swagger-ui.html",
             "/chatop-documentation",
-            "/chatop-api-docs"
+            "/chatop-api-docs",
+            "/resources/**",
+            "/static/**",
+            "/images/**"
+
     };
 }
