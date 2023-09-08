@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+
 @Slf4j
 @RestController
 public class CustomErrorController {
@@ -20,7 +22,9 @@ public class CustomErrorController {
 
     public ResponseEntity<?> CustomParamError(Object message, int status) {
         log.error("[CustomErrorController] CustomParamError : " + message);
-        return ResponseEntity.status(status).body(message);
+        HashMap<String, Object> hashError = new HashMap<>();
+        hashError.put("message", message);
+        return ResponseEntity.status(status).body(hashError);
     }
 
 }

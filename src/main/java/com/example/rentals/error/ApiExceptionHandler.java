@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -33,4 +34,10 @@ public class ApiExceptionHandler extends RuntimeException {
     public ResponseEntity<?> handleCustomException(ApiCustomError ex) {
         return customErrorController.CustomParamError(ex.getMsg(), ex.getHttpStatus().value());
     }
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<?> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
+        return customErrorController.CustomParamError("An error has occurred please check the parameters",
+                HttpStatus.BAD_REQUEST.value());
+    }
+
 }
