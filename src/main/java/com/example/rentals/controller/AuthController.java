@@ -2,7 +2,7 @@ package com.example.rentals.controller;
 
 import com.example.rentals.entity.LogIn;
 import com.example.rentals.entity.Register;
-import com.example.rentals.entity.UserInfo;
+import com.example.rentals.entityDto.UserDto;
 import com.example.rentals.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -23,13 +23,12 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-
-
     @Operation(
             summary = "sign up to chatop",
             description = "Send a Register object (name, email, password) to sign up")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = Register.class), mediaType = "application/json")}),
+            @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = Register.class),
+                    mediaType = "application/json")}),
             @ApiResponse(responseCode = "400")
     })
     @PostMapping("/register")
@@ -47,7 +46,8 @@ public class AuthController {
             summary = "login to chatop and get a token",
             description = "Get a token access by sending a Login object to login ")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = LogIn.class), mediaType = "application/json")}),
+            @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = LogIn.class),
+                    mediaType = "application/json")}),
             @ApiResponse(responseCode = "400")
     })
     @PostMapping("/login")
@@ -67,7 +67,7 @@ public class AuthController {
             @ApiResponse(responseCode = "401")
     })
     @GetMapping("/me")
-    public ResponseEntity<UserInfo> getMe(){
+    public ResponseEntity<UserDto> getMe(){
         return new ResponseEntity<>(authService.getMyInfo(), HttpStatus.OK);
     }
 }

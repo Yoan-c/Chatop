@@ -1,6 +1,7 @@
 package com.example.rentals.configuration;
 
 import com.example.rentals.repository.IUserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,5 +42,10 @@ public class ApplicationConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
+    }
+
+    @Bean
+    public ModelMapper modelMapper(){
+        return  new ModelMapper();
     }
 }

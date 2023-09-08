@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,7 +24,6 @@ public class AuthServiceTest {
     @Test
     void getTokenByLoginMissing(){
         LogIn login = new LogIn();
-       // String token = authService.login(login);
         BadCredentialsException badCredentialsException = assertThrows(
                 BadCredentialsException.class,
                 ()-> authService.login(login),
@@ -39,8 +38,11 @@ public class AuthServiceTest {
     }
 
     @Test
+    @Transactional
     void getTokenByLoginCorrect(){
-        LogIn login = new LogIn("test@gmail.com", "user");
+        Register register = new Register("test2", "test2@gmail.com", "password");
+        authService.register(register);
+        LogIn login = new LogIn("test2@gmail.com", "password");
         String token = authService.login(login);
         assertFalse(token.isEmpty());
     }

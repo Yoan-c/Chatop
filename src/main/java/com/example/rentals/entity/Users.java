@@ -32,8 +32,7 @@ public class Users implements UserDetails {
     private String password;
     private Date created_at;
     private Date updated_at;
-
-    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "owner")
     private List<Rentals> rentalsList;
 
 
@@ -47,6 +46,7 @@ public class Users implements UserDetails {
     public void onUpdate() {
         this.updated_at = new Date();
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
@@ -82,4 +82,5 @@ public class Users implements UserDetails {
     public Collection<Object> getRoles() {
         return null;
     }
+
 }

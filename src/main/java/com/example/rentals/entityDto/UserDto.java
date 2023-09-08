@@ -1,4 +1,4 @@
-package com.example.rentals.entity;
+package com.example.rentals.entityDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserInfo {
+public class UserDto {
     private int id;
     private String name;
     private String email;

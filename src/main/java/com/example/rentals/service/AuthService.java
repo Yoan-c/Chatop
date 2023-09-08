@@ -2,7 +2,7 @@ package com.example.rentals.service;
 
 import com.example.rentals.entity.LogIn;
 import com.example.rentals.entity.Register;
-import com.example.rentals.entity.UserInfo;
+import com.example.rentals.entityDto.UserDto;
 import com.example.rentals.entity.Users;
 import com.example.rentals.error.ApiCustomError;
 import com.example.rentals.repository.IUserRepository;
@@ -17,8 +17,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
-import java.util.HashMap;
 import java.util.Optional;
 
 @Service
@@ -73,18 +71,16 @@ public class AuthService {
         }
         Users user = userRepository.findByEmail(login.getEmail())
                 .orElseThrow(() -> new BadCredentialsException("error"));
-        String token = jwtService.generateToken(user);
-        return token;
+        return jwtService.generateToken(user);
     }
 
-    public UserInfo getMyInfo(){
+    public UserDto getMyInfo(){
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        Users user = userRepository.findByEmail(email).get();
-        UserInfo userInfo = new UserInfo(user.getId(),
+        Users user = userRepository.findByEmail(email).orElseThrow();
+        return new UserDto(user.getId(),
                 user.getName(),
                 user.getEmail(),
                 user.getCreated_at(),
                 user.getUpdated_at());
-        return userInfo;
     }
 }

@@ -1,8 +1,6 @@
 package com.example.rentals.filter;
 
-import com.example.rentals.error.ApiCustomError;
 import com.example.rentals.service.JwtService;
-import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

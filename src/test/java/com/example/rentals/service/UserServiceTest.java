@@ -1,7 +1,7 @@
 package com.example.rentals.service;
 
 import com.example.rentals.entity.Register;
-import com.example.rentals.entity.UserInfo;
+import com.example.rentals.entityDto.UserDto;
 import com.example.rentals.entity.Users;
 import com.example.rentals.repository.IUserRepository;
 import jakarta.transaction.Transactional;
@@ -32,8 +32,8 @@ public class UserServiceTest {
         authService.register(register);
         Users user = userRepository.findByEmail(register.getEmail()).get();
         int idUser = user.getId();
-        UserInfo userInfo = userService.getUserInfoById(String.valueOf(idUser));
-        assertTrue(userInfo.getEmail().equals(user.getEmail()));
+        UserDto userDto = userService.getUserInfoById(String.valueOf(idUser));
+        assertTrue(userDto.getEmail().equals(user.getEmail()));
         userRepository.delete(user);
     }
 
@@ -41,8 +41,7 @@ public class UserServiceTest {
     @Transactional
     public void getUserInfoByIdErrorId(){
         Exception thrown = assertThrows(Exception.class, () ->
-                userService.getUserInfoById(String.valueOf("x")));
-        assertTrue(thrown.getMessage().contains("Unable"));
-
+                userService.getUserInfoById("x"));
+        assertTrue(thrown.getMessage().equals("No value present"));
     }
 }
