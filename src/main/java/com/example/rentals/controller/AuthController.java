@@ -32,14 +32,14 @@ public class AuthController {
             @ApiResponse(responseCode = "400")
     })
     @PostMapping("/register")
-    public ResponseEntity<HashMap> register(@RequestBody Register request){
+    public ResponseEntity<?> register(@RequestBody Register request){
 
-        HashMap<String, String> hashToken = new HashMap<>();
+        HashMap<String, String> token = new HashMap<>();
 
         authService.register(request);
         LogIn login = new LogIn(request.getEmail(), request.getPassword());
-        hashToken.put("token",authService.login(login));
-        return new ResponseEntity<>(hashToken, HttpStatus.OK);
+        token.put("token",authService.login(login));
+        return new ResponseEntity<>(token, HttpStatus.OK);
     }
 
     @Operation(
@@ -51,12 +51,12 @@ public class AuthController {
             @ApiResponse(responseCode = "400")
     })
     @PostMapping("/login")
-    public ResponseEntity<HashMap> login(@RequestBody LogIn login){
+    public ResponseEntity<?> login(@RequestBody LogIn login){
 
-        HashMap<String, String> hashToken = new HashMap<>();
+        HashMap<String, String> token = new HashMap<>();
 
-        hashToken.put("token", authService.login(login));
-        return new ResponseEntity<>(hashToken, HttpStatus.OK);
+        token.put("token", authService.login(login));
+        return new ResponseEntity<>(token, HttpStatus.OK);
     }
 
     @Operation(

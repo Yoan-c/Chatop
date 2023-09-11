@@ -12,7 +12,6 @@ public class ApiCustomError extends RuntimeException{
 
     public ApiCustomError(String msg, HttpStatus httpStatus){
         super(msg);
-        log.error("PASSE ICI");
         this.msg = msg;
         this.httpStatus = httpStatus;
     }

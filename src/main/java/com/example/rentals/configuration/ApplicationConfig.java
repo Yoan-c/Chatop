@@ -1,8 +1,7 @@
 package com.example.rentals.configuration;
 
-import com.example.rentals.repository.IUserRepository;
+import com.example.rentals.repository.UserRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
@@ -19,9 +18,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class ApplicationConfig {
 
-    @Autowired
-    private IUserRepository userRepository;
+    private final UserRepository userRepository;
 
+    public ApplicationConfig(UserRepository userRepository){
+        this.userRepository = userRepository;
+    }
     @Bean
     public UserDetailsService userDetailsService(){
         return username -> userRepository.findByEmail(username)

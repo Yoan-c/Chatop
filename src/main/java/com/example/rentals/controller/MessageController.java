@@ -33,10 +33,10 @@ public class MessageController {
             @ApiResponse(responseCode = "401")
     })
     @PostMapping("/")
-    public ResponseEntity<HashMap<String, String>> postMessage(@RequestBody HashMap<String, String> hashMsgInfo){
-        HashMap<String, String> hashMap = new HashMap<>();
+    public ResponseEntity<?> postMessage(@RequestBody HashMap<String, String> hashMsgInfo){
+        HashMap<String, String> message = new HashMap<>();
         messageService.postMessage(hashMsgInfo);
-        hashMap.put("message", "message send with success");
-        return new ResponseEntity<>(hashMap, HttpStatus.OK);
+        message.put("message", "message send with success");
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 }

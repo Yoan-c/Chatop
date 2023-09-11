@@ -3,8 +3,8 @@ package com.example.rentals.service;
 import com.example.rentals.entity.Register;
 import com.example.rentals.entity.Rentals;
 import com.example.rentals.entity.Users;
-import com.example.rentals.repository.IRentalRepository;
-import com.example.rentals.repository.IUserRepository;
+import com.example.rentals.repository.RentalRepository;
+import com.example.rentals.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class RentalServiceTest {
     private RentalService rentalService;
 
     @Autowired
-    private IRentalRepository rentalRepository;
+    private RentalRepository rentalRepository;
 
     @Autowired
     private  AuthService authService;
@@ -34,7 +34,7 @@ public class RentalServiceTest {
     private UserDetailsService userDetailsService;
 
     @Autowired
-    private IUserRepository userRepository;
+    private UserRepository userRepository;
 
 
     public HashMap<String, Object> getImportantInfo() {

@@ -15,8 +15,11 @@ import java.util.List;
 
 @Service
 public class ModelMapperUtils {
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
+
+    public ModelMapperUtils(ModelMapper mm){
+        this.modelMapper = mm;
+    }
 
     /*
         This function take an Id and looking for a rental Object

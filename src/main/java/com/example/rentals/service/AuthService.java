@@ -5,7 +5,7 @@ import com.example.rentals.entity.Register;
 import com.example.rentals.entityDto.UserDto;
 import com.example.rentals.entity.Users;
 import com.example.rentals.error.ApiCustomError;
-import com.example.rentals.repository.IUserRepository;
+import com.example.rentals.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,17 +22,18 @@ import java.util.Optional;
 @Service
 @Slf4j
 public class AuthService {
-    @Autowired
-    private IUserRepository userRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    private JwtService jwtService;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    public AuthService( UserRepository ur, PasswordEncoder pe, JwtService js, AuthenticationManager am){
+        this.userRepository = ur;
+        this.passwordEncoder = pe;
+        this.jwtService = js;
+        this.authenticationManager = am;
+    }
 
     @Transactional
     public void register(Register request){
@@ -45,7 +46,6 @@ public class AuthService {
             log.error("[AuthService] register : User already exist !");
             throw new ApiCustomError(null, HttpStatus.BAD_REQUEST);
         }
-
         Users user = new Users();
         user.setEmail(request.getEmail());
         user.setName(request.getName());

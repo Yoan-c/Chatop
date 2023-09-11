@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.util.Objects;
 
 @Slf4j
 @Component
@@ -28,8 +29,11 @@ public class DocumentUtils {
     @Value("${chatop.app.URL_RELATIVE_PICTURE}")
     private String RELATIVE_PICTURE;
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    public DocumentUtils(UserService us){
+        this.userService = us;
+    }
 
 
 
@@ -52,7 +56,7 @@ public class DocumentUtils {
     }
 
     public String getPathPicture(MultipartFile picture) {
-        return this.DIR_PICTURE_PATH+"/"+this.getFileName(picture.getOriginalFilename());
+        return this.DIR_PICTURE_PATH+"/"+this.getFileName(Objects.requireNonNull(picture.getOriginalFilename()));
     }
 
     public String uploadUserRentalPicture(MultipartFile picture) throws Exception {

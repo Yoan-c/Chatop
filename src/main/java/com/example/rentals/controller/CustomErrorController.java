@@ -12,7 +12,6 @@ import java.util.HashMap;
 @RestController
 public class CustomErrorController {
 
-
     public ResponseEntity<ApiError> CustomError(Object message, HttpStatus status) {
         ApiError error = new ApiError();
         error.setMessage(message);

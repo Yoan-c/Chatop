@@ -21,8 +21,10 @@ import java.util.List;
 @RequestMapping("/api/rentals")
 public class RentalController {
 
-    @Autowired
     public RentalService rentalService;
+    public RentalController(RentalService rs){
+        this.rentalService = rs;
+    }
 
     @Operation(
             summary = "Create rental",
@@ -33,12 +35,12 @@ public class RentalController {
             @ApiResponse(responseCode = "401")
     })
     @PostMapping(value = "", consumes = "multipart/form-data")
-    public ResponseEntity<HashMap> createRental(@RequestParam HashMap<String, String> hashRental,
+    public ResponseEntity<?> createRental(@RequestParam HashMap<String, String> rental,
                                           @RequestParam("picture") MultipartFile picture) throws Exception {
-         HashMap<String, String> hashRentalInfo = new HashMap<>();
-         rentalService.createRental(hashRental, picture);
-         hashRentalInfo.put("message", "Rental created !");
-         return ResponseEntity.status(HttpStatus.OK).body(hashRentalInfo);
+         HashMap<String, String> rentalInfo = new HashMap<>();
+         rentalService.createRental(rental, picture);
+        rentalInfo.put("message", "Rental created !");
+         return ResponseEntity.status(HttpStatus.OK).body(rentalInfo);
     }
 
     @Operation(
@@ -50,12 +52,12 @@ public class RentalController {
             @ApiResponse(responseCode = "401")
     })
     @PutMapping(value = "/{id}")
-    public ResponseEntity<HashMap<String, String>> PutRental(@PathVariable int id,
+    public ResponseEntity<?> PutRental(@PathVariable int id,
                                                              @RequestParam HashMap<String, String> rentals) {
         rentalService.putInfoRental(id, rentals);
-        HashMap<String, String> hashRentalInfo = new HashMap<>();
-        hashRentalInfo.put("message", "Rental updated !");
-        return ResponseEntity.status(HttpStatus.OK).body(hashRentalInfo);
+        HashMap<String, String> rentalInfo = new HashMap<>();
+        rentalInfo.put("message", "Rental updated !");
+        return ResponseEntity.status(HttpStatus.OK).body(rentalInfo);
     }
 
     @Operation(
@@ -81,10 +83,10 @@ public class RentalController {
     })
     @GetMapping(value = "")
     public ResponseEntity<HashMap<String, Object>> getAllRental() {
-        HashMap<String, Object> lstRentalInfo = new HashMap<>();
-        List<RentalDto> lstRentals = rentalService.getAllRental();
-        lstRentalInfo.put("rentals", lstRentals);
-        return ResponseEntity.status(HttpStatus.OK).body(lstRentalInfo);
+        HashMap<String, Object> rentalInfo = new HashMap<>();
+        List<RentalDto> rentals = rentalService.getAllRental();
+        rentalInfo.put("rentals", rentals);
+        return ResponseEntity.status(HttpStatus.OK).body(rentalInfo);
     }
 
 }

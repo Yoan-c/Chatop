@@ -3,7 +3,7 @@ package com.example.rentals.service;
 import com.example.rentals.entity.LogIn;
 import com.example.rentals.entity.Register;
 import com.example.rentals.entity.Users;
-import com.example.rentals.repository.IUserRepository;
+import com.example.rentals.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,7 +19,7 @@ public class AuthServiceTest {
     @Autowired
     private AuthService authService;
     @Autowired
-    private IUserRepository userRepository;
+    private UserRepository userRepository;
 
     @Test
     void getTokenByLoginMissing(){

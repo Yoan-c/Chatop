@@ -4,9 +4,9 @@ import com.example.rentals.entity.Messages;
 import com.example.rentals.entity.Rentals;
 import com.example.rentals.entity.Users;
 import com.example.rentals.error.ApiCustomError;
-import com.example.rentals.repository.IMessageRepository;
-import com.example.rentals.repository.IRentalRepository;
-import com.example.rentals.repository.IUserRepository;
+import com.example.rentals.repository.MessageRepository;
+import com.example.rentals.repository.RentalRepository;
+import com.example.rentals.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,14 +18,15 @@ import java.util.HashMap;
 @Slf4j
 @Service
 public class MessageService {
-    @Autowired
-    private IMessageRepository messageRepository;
+    private final MessageRepository messageRepository;
+    private final UserRepository userRepository;
+    private final RentalRepository rentalRepository;
 
-    @Autowired
-    private IUserRepository userRepository;
-
-    @Autowired
-    private IRentalRepository rentalRepository;
+    public MessageService(MessageRepository mr, UserRepository ur, RentalRepository rr){
+        this.messageRepository = mr;
+        this.userRepository = ur;
+        this.rentalRepository = rr;
+    }
 
     @Transactional
     public void postMessage(HashMap<String, String> hashMsgInfo) {

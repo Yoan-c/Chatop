@@ -1,16 +1,14 @@
 package com.example.rentals.service;
 
-import com.example.rentals.entity.Messages;
 import com.example.rentals.entity.Rentals;
 import com.example.rentals.entity.Users;
 import com.example.rentals.error.ApiCustomError;
-import com.example.rentals.repository.IMessageRepository;
-import com.example.rentals.repository.IRentalRepository;
-import com.example.rentals.repository.IUserRepository;
+import com.example.rentals.repository.MessageRepository;
+import com.example.rentals.repository.RentalRepository;
+import com.example.rentals.repository.UserRepository;
 import com.example.rentals.utils.ConfigTest;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -28,13 +26,13 @@ public class MessageServiceTest {
     private MessageService messageService;
 
     @Autowired
-    private IUserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    private IRentalRepository rentalRepository;
+    private RentalRepository rentalRepository;
 
     @Autowired
-    private IMessageRepository messageRepository;
+    private MessageRepository messageRepository;
 
     @Test
     @Transactional

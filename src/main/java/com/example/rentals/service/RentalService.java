@@ -4,7 +4,7 @@ import com.example.rentals.entity.Rentals;
 import com.example.rentals.entity.Users;
 import com.example.rentals.entityDto.RentalDto;
 import com.example.rentals.error.ApiCustomError;
-import com.example.rentals.repository.IRentalRepository;
+import com.example.rentals.repository.RentalRepository;
 import com.example.rentals.utils.DocumentUtils;
 import com.example.rentals.utils.ModelMapperUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -20,55 +20,53 @@ import java.util.List;
 @Slf4j
 @Service
 public class RentalService {
+    private final RentalRepository rentalRepository;
+    private final UserService userService;
+    private final DocumentUtils documentUtils;
+    private final ModelMapperUtils modelMapperUtils;
 
-    @Autowired
-    private IRentalRepository rentalRepository;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private DocumentUtils documentUtils;
-
-    @Autowired
-    private ModelMapperUtils modelMapperUtils;
+    public RentalService(RentalRepository rr, UserService us, DocumentUtils du, ModelMapperUtils mmu){
+        this.rentalRepository = rr;
+        this.userService = us;
+        this.documentUtils = du;
+        this.modelMapperUtils = mmu;
+    }
 
 
     @Transactional
-    public void createRental(HashMap<String, String> hashRental, MultipartFile picture) throws Exception {
-        Rentals rentals = createRentalWithData(hashRental);
+    public void createRental(HashMap<String, String> rental, MultipartFile picture) throws Exception {
+        Rentals newRentals = createRentalWithData(rental);
             String pathPicture = documentUtils.uploadUserRentalPicture(picture);
             if (pathPicture != null)
-               // rentals.setPicture(pathPicture.substring(pathPicture.indexOf("/images")));
-                rentals.setPicture(pathPicture);
-            rentalRepository.save(rentals);
+                newRentals.setPicture(pathPicture);
+            rentalRepository.save(newRentals);
     }
 
-    public Rentals createRentalWithData(HashMap<String, String> hashRental){
-        if (hashRental == null)
+    public Rentals createRentalWithData(HashMap<String, String> rental){
+        if (rental == null)
             return null;
         Users user = userService.getCurrentUser();
-        Rentals rentals = new Rentals();
+        Rentals newRentals = new Rentals();
 
         try {
-            if (hashRental.containsKey("surface"))
-                rentals.setSurface(Float.parseFloat(hashRental.get("surface")));
-            if (hashRental.containsKey("price"))
-                rentals.setPrice(Float.parseFloat(hashRental.get("price")));
-            if (hashRental.containsKey("description"))
-                rentals.setDescription(hashRental.get("description"));
-            rentals.setName(hashRental.getOrDefault("name", "default name"));
-            rentals.setOwner(user);
+            if (rental.containsKey("surface"))
+                newRentals.setSurface(Float.parseFloat(rental.get("surface")));
+            if (rental.containsKey("price"))
+                newRentals.setPrice(Float.parseFloat(rental.get("price")));
+            if (rental.containsKey("description"))
+                newRentals.setDescription(rental.get("description"));
+            newRentals.setName(rental.getOrDefault("name", "default name"));
+            newRentals.setOwner(user);
         }
         catch (Exception ex){
             log.error("[createRental] createRentalWithData " + ex);
             throw new ApiCustomError("error", HttpStatus.BAD_REQUEST);
         }
-        return rentals;
+        return newRentals;
     }
 
     public void putInfoRental(int id, HashMap<String, String> rental) {
-        Rentals oldRental = rentalRepository.getById(id);
+        Rentals oldRental = rentalRepository.findById(id).orElseThrow();
         Rentals newRental = modelMapperUtils.mapHashMapToRentals(rental, oldRental);
         rentalRepository.save(newRental);
     }

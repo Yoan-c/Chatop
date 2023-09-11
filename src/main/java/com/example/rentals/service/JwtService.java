@@ -21,13 +21,11 @@ public class JwtService {
     @Value("${chatop.app.jwtSecret}")
     private String SECRET_KEY;
 
-
     public String extractUsername(String jwt) {
         return exctractClaim(jwt, Claims::getSubject);
     }
 
     public <T> T exctractClaim(String token, Function<Claims, T> claimsResolver) {
-
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }

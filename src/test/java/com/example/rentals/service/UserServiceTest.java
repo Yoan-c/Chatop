@@ -3,7 +3,7 @@ package com.example.rentals.service;
 import com.example.rentals.entity.Register;
 import com.example.rentals.entityDto.UserDto;
 import com.example.rentals.entity.Users;
-import com.example.rentals.repository.IUserRepository;
+import com.example.rentals.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@ public class UserServiceTest {
     private AuthService authService;
 
     @Autowired
-    private IUserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private UserService userService;
