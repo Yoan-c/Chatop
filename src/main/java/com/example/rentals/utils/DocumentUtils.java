@@ -58,10 +58,11 @@ public class DocumentUtils {
     public String uploadUserRentalPicture(MultipartFile picture) throws Exception {
         this.createDirIfNotExist();
         String pathPicture = getPathPicture(picture);
-        try {
+        try (
             InputStream inputStream = picture.getInputStream();
-            FileOutputStream fileOutputStream = new FileOutputStream(pathPicture);
-            byte[] buf = new byte[1024];
+            FileOutputStream fileOutputStream = new FileOutputStream(pathPicture)
+           )
+        { byte[] buf = new byte[1024];
             int numRead = 0;
             while((numRead = inputStream.read(buf)) >= 0){
                 fileOutputStream.write(buf, 0, numRead);
