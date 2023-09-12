@@ -27,7 +27,6 @@ public class UserService {
         }
 
         Users user = userRepository.findById(idUser).orElseThrow();
-        log.warn(user.toString());
         return new UserDto(user.getId(),
                 user.getName(),
                 user.getEmail(),

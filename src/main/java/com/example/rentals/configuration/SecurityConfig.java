@@ -49,11 +49,9 @@ public class SecurityConfig {
             "/v3/api-doc.yaml",
             "/swagger-ui/**",
             "/swagger-ui.html",
-            "/chatop-documentation",
-            "/chatop-api-docs",
-            "/resources/**",
-            "/static/**",
-            "/images/**"
+            "/documentation",
+            "/documentation-api"
+
 
     };
 }

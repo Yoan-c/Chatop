@@ -20,15 +20,8 @@ public class DocumentUtils {
     @Value("${chatop.app.DirPircturePath}")
     private String DIR_PICTURE_PATH;
 
-    @Value("${app.url}")
-    private String APP_URL;
-
-    @Value("${server.port}")
-    private String SERVER_PORT;
-
-    @Value("${chatop.app.URL_RELATIVE_PICTURE}")
-    private String RELATIVE_PICTURE;
-
+    @Value("${SERVER_IMG_URL}")
+    private String SERVER_IMG_URL;
     private final UserService userService;
 
     public DocumentUtils(UserService us){
@@ -74,13 +67,10 @@ public class DocumentUtils {
         }catch (Exception ex){
             log.error("[DocumentUtils] uploadUserRentalPicture "+ ex);
         }
-        return this.APP_URL+":"
-                +this.SERVER_PORT
-                +"/"
-                +getFormatPathToUrl(pathPicture);
+        return getFormatPathToUrl(pathPicture);
     }
 
     private String getFormatPathToUrl(String pathPicture) {
-        return pathPicture.substring(pathPicture.indexOf("images/"));
+        return this.SERVER_IMG_URL +"/"+ pathPicture.substring(pathPicture.lastIndexOf("/") + 1 );
     }
 }
