@@ -19,4 +19,15 @@ public class Messages {
     private String message;
     private Date created_at;
     private Date updated_at;
+
+    @PrePersist
+    public void onCreate(){
+        this.created_at = new Date();
+        this.updated_at = new Date();
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        this.updated_at = new Date();
+    }
 }
