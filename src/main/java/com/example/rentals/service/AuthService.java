@@ -6,6 +6,7 @@ import com.example.rentals.entityDto.UserDto;
 import com.example.rentals.entity.Users;
 import com.example.rentals.error.ApiCustomError;
 import com.example.rentals.repository.UserRepository;
+import com.example.rentals.utils.FunctionUtils;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +28,18 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private  final FunctionUtils functionUtils;
 
-    public AuthService( UserRepository ur, PasswordEncoder pe, JwtService js, AuthenticationManager am){
+    public AuthService( UserRepository ur,
+                        PasswordEncoder pe,
+                        JwtService js,
+                        AuthenticationManager am,
+                        FunctionUtils fu){
         this.userRepository = ur;
         this.passwordEncoder = pe;
         this.jwtService = js;
         this.authenticationManager = am;
+        this.functionUtils = fu;
     }
 
     @Transactional
@@ -40,6 +47,10 @@ public class AuthService {
         Optional<Users> checkUser = userRepository.findByEmail(request.getEmail());
         if (request.getEmail() == null || request.getPassword() == null || request.getName() == null){
             log.error("[AuthService] register : Missing some user information !");
+            throw new ApiCustomError(null, HttpStatus.BAD_REQUEST);
+        }
+        if (!functionUtils.isEmailValid(request.getEmail())){
+            log.error("[AuthService] register : Please check your information");
             throw new ApiCustomError(null, HttpStatus.BAD_REQUEST);
         }
         if (checkUser != null && checkUser.isPresent()) {
