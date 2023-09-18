@@ -18,20 +18,18 @@ import java.util.Objects;
 public class DocumentUtils {
 
     @Value("${chatop.app.DirPircturePath}")
-    private String DIR_PICTURE_PATH;
+    private String DirPictureePath;
 
     @Value("${SERVER_IMG_URL}")
-    private String SERVER_IMG_URL;
+    private String ServerImgUrl;
     private final UserService userService;
 
     public DocumentUtils(UserService us){
         this.userService = us;
     }
 
-
-
     public void createDirIfNotExist() throws Exception {
-        File directory = new File(DIR_PICTURE_PATH);
+        File directory = new File(DirPictureePath);
         if (!directory.exists()) {
             try {
                 directory.mkdir();
@@ -49,7 +47,7 @@ public class DocumentUtils {
     }
 
     public String getPathPicture(MultipartFile picture) {
-        return this.DIR_PICTURE_PATH+"/"+this.getFileName(Objects.requireNonNull(picture.getOriginalFilename()));
+        return this.DirPictureePath+"/"+this.getFileName(Objects.requireNonNull(picture.getOriginalFilename()));
     }
 
     public String uploadUserRentalPicture(MultipartFile picture) throws Exception {
@@ -71,6 +69,6 @@ public class DocumentUtils {
     }
 
     private String getFormatPathToUrl(String pathPicture) {
-        return this.SERVER_IMG_URL +"/"+ pathPicture.substring(pathPicture.lastIndexOf("/") + 1 );
+        return this.ServerImgUrl +"/"+ pathPicture.substring(pathPicture.lastIndexOf("/") + 1 );
     }
 }

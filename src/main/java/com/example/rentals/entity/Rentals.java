@@ -22,18 +22,20 @@ public class Rentals {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name ="owner_id",  nullable = false)
     private Users owner;
-    private Date created_at;
-    private Date updated_at;
+    @Column(name="created_at")
+    private Date createdAt;
+    @Column(name="updated_at")
+    private Date updatedAt;
 
     @PrePersist
     public void onCreate(){
-        this.created_at = new Date();
-        this.updated_at = new Date();
+        this.createdAt = new Date();
+        this.updatedAt = new Date();
     }
 
     @PreUpdate
     public void onUpdate() {
-        this.updated_at = new Date();
+        this.updatedAt = new Date();
     }
 
     @Override
@@ -45,8 +47,8 @@ public class Rentals {
                 ", price=" + price +
                 ", picture='" + picture + '\'' +
                 ", description='" + description + '\'' +
-                ", created_at=" + created_at +
-                ", updated_at=" + updated_at +
+                ", created_at=" + createdAt +
+                ", updated_at=" + updatedAt +
                 '}';
     }
 }

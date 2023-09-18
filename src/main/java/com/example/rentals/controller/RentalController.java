@@ -88,5 +88,4 @@ public class RentalController {
         rentalInfo.put("rentals", rentals);
         return ResponseEntity.status(HttpStatus.OK).body(rentalInfo);
     }
-
 }

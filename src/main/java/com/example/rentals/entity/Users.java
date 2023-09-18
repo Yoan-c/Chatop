@@ -30,21 +30,23 @@ public class Users implements UserDetails {
     private String name;
     @JsonIgnore
     private String password;
-    private Date created_at;
-    private Date updated_at;
+    @Column(name="created_at")
+    private Date createdAt;
+    @Column(name="updated_at")
+    private Date updatedAt;
     @OneToMany(mappedBy = "owner")
     private List<Rentals> rentalsList;
 
 
     @PrePersist
     public void onCreate(){
-        this.created_at = new Date();
-        this.updated_at = new Date();
+        this.createdAt = new Date();
+        this.updatedAt = new Date();
     }
 
     @PreUpdate
     public void onUpdate() {
-        this.updated_at = new Date();
+        this.updatedAt = new Date();
     }
 
     @Override

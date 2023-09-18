@@ -33,7 +33,7 @@ public class ModelMapperUtils {
         Converter<Rentals, Integer> userIdToStringConverter = ctx -> ctx.getSource() == null ? 0 : userId;
         modelMapper.typeMap(Rentals.class, RentalDto.class)
                 .addMappings(mapper -> mapper
-                        .using(userIdToStringConverter).map(Rentals::getOwner, RentalDto::setOwner_id));
+                        .using(userIdToStringConverter).map(Rentals::getOwner, RentalDto::setOwnerId));
         modelMapper.map(rentals, rentalDto);
         return rentalDto;
     }
