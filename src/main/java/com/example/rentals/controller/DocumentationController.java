@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class DocummentationController {
+public class DocumentationController {
     @RequestMapping("/documentation")
     public String getRedirectUrl() {
         return "redirect:swagger-ui.html";

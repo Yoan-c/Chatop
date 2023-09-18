@@ -19,7 +19,7 @@ public class CustomErrorController {
         return ResponseEntity.status(status).body(error);
     }
 
-    public ResponseEntity<?> CustomParamError(Object message, int status) {
+    public ResponseEntity<HashMap<String, Object>> CustomParamError(Object message, int status) {
         log.error("[CustomErrorController] CustomParamError : " + message);
         HashMap<String, Object> hashError = new HashMap<>();
         hashError.put("message", message);

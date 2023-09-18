@@ -35,7 +35,7 @@ public class RentalController {
             @ApiResponse(responseCode = "401")
     })
     @PostMapping(value = "", consumes = "multipart/form-data")
-    public ResponseEntity<?> createRental(@RequestParam HashMap<String, String> rental,
+    public ResponseEntity<HashMap<String, String>> createRental(@RequestParam HashMap<String, String> rental,
                                           @RequestParam("picture") MultipartFile picture) throws Exception {
          HashMap<String, String> rentalInfo = new HashMap<>();
          rentalService.createRental(rental, picture);
@@ -52,7 +52,7 @@ public class RentalController {
             @ApiResponse(responseCode = "401")
     })
     @PutMapping(value = "/{id}")
-    public ResponseEntity<?> PutRental(@PathVariable int id,
+    public ResponseEntity<HashMap<String, String>> PutRental(@PathVariable int id,
                                                              @RequestParam HashMap<String, String> rentals) {
         rentalService.putInfoRental(id, rentals);
         HashMap<String, String> rentalInfo = new HashMap<>();

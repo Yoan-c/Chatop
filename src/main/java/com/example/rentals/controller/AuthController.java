@@ -32,7 +32,7 @@ public class AuthController {
             @ApiResponse(responseCode = "400")
     })
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody Register request){
+    public ResponseEntity<HashMap<String, String>> register(@RequestBody Register request){
 
         HashMap<String, String> token = new HashMap<>();
 
@@ -51,7 +51,7 @@ public class AuthController {
             @ApiResponse(responseCode = "400")
     })
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LogIn login){
+    public ResponseEntity<HashMap<String, String>> login(@RequestBody LogIn login){
 
         HashMap<String, String> token = new HashMap<>();
 
