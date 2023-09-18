@@ -51,7 +51,5 @@ public class SecurityConfig {
             "/swagger-ui.html",
             "/documentation",
             "/documentation-api"
-
-
     };
 }
