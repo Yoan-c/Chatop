@@ -21,10 +21,6 @@ public class ModelMapperUtils {
         this.modelMapper = mm;
     }
 
-    /*
-        This function take an Id and looking for a rental Object
-        A modelMapper object is configured to map Rental to RentalDTO.
-    */
     public RentalDto converRentalToRentalDTO(Rentals rentals){
         int userId = rentals.getOwner().getId();
 
@@ -38,10 +34,6 @@ public class ModelMapperUtils {
         return rentalDto;
     }
 
-    /*
-         This function takes a Hasmap of data to update the rental object and the rental object to be modified.
-         A modelMapper is configured and fills the rental object to return it.
-    */
     public Rentals mapHashMapToRentals(HashMap<String, String> rentalMap, Rentals newRental){
 
         modelMapper.getConfiguration().setSkipNullEnabled(true);

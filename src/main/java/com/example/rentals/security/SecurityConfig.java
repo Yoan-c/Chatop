@@ -1,4 +1,4 @@
-package com.example.rentals.configuration;
+package com.example.rentals.security;
 
 import com.example.rentals.filter.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;

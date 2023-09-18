@@ -3,7 +3,6 @@ package com.example.rentals.utils;
 import com.example.rentals.entity.Users;
 import com.example.rentals.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,7 +34,7 @@ public class DocumentUtils {
                 directory.mkdir();
             } catch (SecurityException ex) {
                 log.error("[DocumentUtils] isDirectoryExistOrCreate " + ex);
-                throw new Exception("an error has occured");
+                throw new Exception("an error has occurred");
             }
         }
     }
