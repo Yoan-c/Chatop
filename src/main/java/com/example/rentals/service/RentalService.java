@@ -42,7 +42,7 @@ public class RentalService {
             rentalRepository.save(newRentals);
     }
 
-    public Rentals createRentalWithData(HashMap<String, String> rental){
+    private Rentals createRentalWithData(HashMap<String, String> rental){
         if (rental == null)
             return null;
         Users user = userService.getCurrentUser();

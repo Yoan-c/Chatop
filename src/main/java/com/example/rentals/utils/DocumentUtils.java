@@ -28,7 +28,7 @@ public class DocumentUtils {
         this.userService = us;
     }
 
-    public void createDirIfNotExist() throws Exception {
+    private void createDirIfNotExist() throws Exception {
         File directory = new File(DirPictureePath);
         if (!directory.exists()) {
             try {
@@ -40,13 +40,13 @@ public class DocumentUtils {
         }
     }
 
-    public String getFileName(String pictureName){
+    private String getFileName(String pictureName){
         Users user = userService.getCurrentUser();
         String fileExt = pictureName.substring(pictureName.lastIndexOf("."));
         return user.getId() + "_" + user.getName()+"_"+System.currentTimeMillis()+ fileExt;
     }
 
-    public String getPathPicture(MultipartFile picture) {
+    private String getPathPicture(MultipartFile picture) {
         return this.DirPictureePath+"/"+this.getFileName(Objects.requireNonNull(picture.getOriginalFilename()));
     }
 
